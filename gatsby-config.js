@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: "Gatsby boilerplate",
+    siteUrl: "https://pkgatsbystarter.netlify.com",
   },
   plugins: [
     "gatsby-plugin-netlify-cms",
