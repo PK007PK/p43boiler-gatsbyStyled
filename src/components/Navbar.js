@@ -7,11 +7,26 @@ export default function Navbar() {
 
   return (
     <div>
-      <Link to="/" state={{ isActive: isActive ? true : false }}>
+      <Link
+        style={{ marginLeft: "20px" }}
+        to="/"
+        state={{ isActive: isActive ? true : false }}
+      >
         Index
       </Link>
-      <Link to="/test" state={{ isActive: isActive ? true : false }}>
+      <Link
+        style={{ marginLeft: "20px" }}
+        to="/test"
+        state={{ isActive: isActive ? true : false }}
+      >
         Test
+      </Link>
+      <Link
+        style={{ marginLeft: "20px" }}
+        to="/blog"
+        state={{ isActive: isActive ? true : false }}
+      >
+        Blog
       </Link>
     </div>
   );
