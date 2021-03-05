@@ -2,7 +2,6 @@ import React from "react";
 import { graphql, Link } from "gatsby";
 
 import AppProvider from "../AppProvider";
-import Button from "../components/Button";
 import Layout from "../components/Layout";
 
 const BlogPage = ({ location, data }) => {
