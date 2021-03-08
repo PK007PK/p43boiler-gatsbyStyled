@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { graphql, Link } from "gatsby";
-
-import AppProvider from "../AppProvider";
+import AppContext from "../AppProvider";
 import Layout from "../components/Layout";
 
-const BlogPage = ({ location, data }) => {
+const BlogPage = ({ data }) => {
   const posts = data.allMarkdownRemark.nodes;
-
+  const { piotrek } = useContext(AppContext);
   const DisplayPosts = () => (
     <ul style={{ listStyle: `none`, paddingLeft: 0 }}>
       {posts.map((post) => {
         return (
           <li key={post.fields.slug}>
+            <p>{piotrek}</p>
             <h3>{post.frontmatter.title}</h3>
             <p>{post.frontmatter.description}</p>
             <Link to={post.fields.slug} itemProp="url">
@@ -24,12 +24,10 @@ const BlogPage = ({ location, data }) => {
   );
 
   return (
-    <AppProvider state={location?.state}>
-      <Layout>
-        <h1>Blog page</h1>
-        <DisplayPosts />
-      </Layout>
-    </AppProvider>
+    <Layout>
+      <h1>Blog page</h1>
+      <DisplayPosts />
+    </Layout>
   );
 };
 

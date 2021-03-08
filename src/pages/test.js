@@ -1,17 +1,14 @@
 import React from "react";
 
-import AppProvider from "../AppProvider";
 import Button from "../components/Button";
 import Layout from "../components/Layout";
 
-const TestPage = ({ location }) => {
+const TestPage = () => {
   return (
-    <AppProvider state={location?.state}>
-      <Layout>
-        <h1>Test page</h1>
-        <Button />
-      </Layout>
-    </AppProvider>
+    <Layout>
+      <h1>Test page</h1>
+      <Button />
+    </Layout>
   );
 };
 

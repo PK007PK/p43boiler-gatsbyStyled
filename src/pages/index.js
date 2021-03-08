@@ -1,17 +1,18 @@
 import React from "react";
 
-import AppProvider from "../AppProvider";
 import Button from "../components/Button";
 import Layout from "../components/Layout";
+import AppContext from "../AppProvider";
+import { useContext } from "react";
 
-const IndexPage = ({ location }) => {
+const IndexPage = () => {
+  const { piotrek } = useContext(AppContext);
   return (
-    <AppProvider state={location?.state}>
-      <Layout>
-        <h1>Index page</h1>
-        <Button />
-      </Layout>
-    </AppProvider>
+    <Layout>
+      <h1>Index page</h1>
+      <Button />
+      <p>{piotrek}</p>
+    </Layout>
   );
 };
 

@@ -3,6 +3,7 @@ module.exports = {
     title: "Gatsby boilerplate",
     siteUrl: "https://pkgatsbystarter.netlify.com",
   },
+  flags: { DEV_SSR: true },
   plugins: [
     "gatsby-plugin-styled-components",
     {
