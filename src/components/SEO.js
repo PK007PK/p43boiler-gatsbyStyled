@@ -1,9 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Helmet } from "react-helmet";
-import { useStaticQuery, graphql } from "gatsby";
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useStaticQuery, graphql } from 'gatsby';
 
-const SEO = ({ description, lang, meta, title }) => {
+const SEO = ({ children, location, description, title, image }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -11,59 +10,37 @@ const SEO = ({ description, lang, meta, title }) => {
           siteMetadata {
             title
             description
+            language
           }
         }
       }
     `
   );
 
-  const metaDescription = description || site.siteMetadata.description;
-  const defaultTitle = site.siteMetadata?.title;
-
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
-      meta={[
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:title`,
-          content: title,
-        },
-        {
-          property: `og:description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-      ].concat(meta)}
-    />
+    <Helmet titleTemplate={`%s - ${site.siteMetadata.title}`}>
+      <html lang={site.siteMetadata.language} />
+      <title>{title}</title>
+      {/* Fav Icons */}
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <link rel="alternate icon" href="/favicon.ico" />
+      {/* Meta Tags */}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta charSet="utf-8" />
+      <meta name="description" content={site.siteMetadata.description} />
+      {/* Open Graph */}
+      {location && <meta property="og:url" content={location.href} />}
+      <meta property="og:image" content={image || '/logo.svg'} />
+      <meta property="og:title" content={title} key="ogtitle" />
+      <meta
+        propery="og:site_name"
+        content={site.siteMetadata.title}
+        key="ogsitename"
+      />
+      <meta property="og:description" content={description} key="ogdesc" />
+      {children}
+    </Helmet>
   );
-};
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-};
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
 };
 
 export default SEO;

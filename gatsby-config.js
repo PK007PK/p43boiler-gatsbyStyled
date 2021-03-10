@@ -1,15 +1,17 @@
 module.exports = {
   siteMetadata: {
-    title: "Gatsby boilerplate",
-    siteUrl: "https://pkgatsbystarter.netlify.com",
+    title: 'Gatsby boilerplate',
+    description: 'Gatsby starter site',
+    siteUrl: 'https://pkgatsbystarter.netlify.com',
+    language: 'eng',
   },
   flags: { DEV_SSR: true },
   plugins: [
-    "gatsby-plugin-styled-components",
+    'gatsby-plugin-styled-components',
     {
-      resolve: "gatsby-plugin-google-analytics",
+      resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: "xxxgoogleanaliticsxxx",
+        trackingId: 'xxxgoogleanaliticsxxx',
       },
     },
     {
@@ -50,17 +52,17 @@ module.exports = {
       },
     },
     `gatsby-remark-copy-linked-files`,
-    "gatsby-plugin-sharp",
-    "gatsby-plugin-react-helmet",
-    "gatsby-plugin-sitemap",
-    "gatsby-plugin-offline",
+    'gatsby-plugin-sharp',
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sitemap',
+    'gatsby-plugin-offline',
     // {
     //   resolve: "gatsby-plugin-manifest",
     //   options: {
     //     icon: "src/images/icon.png",
     //   },
     // },
-    "gatsby-transformer-sharp",
-    "gatsby-plugin-netlify-cms",
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-netlify-cms',
   ],
 };

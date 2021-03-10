@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
-import font from "../assets/fonts/frenchfries.woff";
+import font from '../assets/fonts/frenchfries.woff';
 
 const Typography = createGlobalStyle`
   @font-face {
@@ -25,6 +25,12 @@ const Typography = createGlobalStyle`
     text-decoration-color: var(--red);
     text-decoration-skip-ink: none;
   }
+
+  ul {
+    padding: 0;
+  }
+
+
 
 `;
 

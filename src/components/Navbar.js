@@ -1,18 +1,35 @@
-import React from "react";
-import { Link } from "gatsby";
+import React from 'react';
+import { Link } from 'gatsby';
+import styled from 'styled-components';
+import { BootsContainer } from './BootsElements';
+
+const NavStyle = styled.nav`
+  ul {
+    display: flex;
+  }
+
+  li {
+    list-style: none;
+    margin-right: 20px;
+  }
+`;
 
 export default function Navbar() {
   return (
-    <div>
-      <Link style={{ marginLeft: "20px" }} to="/">
-        Index
-      </Link>
-      <Link style={{ marginLeft: "20px" }} to="/test">
-        Test
-      </Link>
-      <Link style={{ marginLeft: "20px" }} to="/blog">
-        Blog
-      </Link>
-    </div>
+    <NavStyle>
+      <BootsContainer>
+        <ul>
+          <li>
+            <Link to="/">Index</Link>
+          </li>
+          <li>
+            <Link to="/test">Test</Link>
+          </li>
+          <li>
+            <Link to="/blog">Blog</Link>{' '}
+          </li>
+        </ul>
+      </BootsContainer>
+    </NavStyle>
   );
 }

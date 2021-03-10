@@ -1,24 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "normalize.css";
-import GlobalStyles from "../styles/GlobalStyles";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import React from 'react';
+import 'normalize.css';
+import GlobalStyles from '../styles/GlobalStyles';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import { BootsContainer } from './BootsElements';
+import Typography from '../styles/Typography';
 
-const Layout = ({ location, children }) => {
-  return (
-    <>
-      <GlobalStyles />
-      {/* <Typography /> */}
-      <Navbar location={location} />
-      {children}
-      <Footer />
-    </>
-  );
-};
-
-Layout.propTypes = {
-  location: PropTypes.object,
-};
+const Layout = ({ children }) => (
+  <>
+    <GlobalStyles />
+    <Typography />
+    <Navbar />
+    <BootsContainer>{children}</BootsContainer>
+    <Footer />
+  </>
+);
 
 export default Layout;
