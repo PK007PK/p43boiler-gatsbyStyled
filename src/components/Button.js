@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import AppContext from "../AppProvider";
 
 const StyledButton = styled.button`
   color: var(--red);
@@ -9,15 +10,13 @@ const StyledButton = styled.button`
 `;
 
 const Button = () => {
-  // const { toogleIsActive, isActive } = useContext(AppContext);
-  // const { piotrek } = useContext(AppContext);
+  const { toogleIsActive, isActive } = useContext(AppContext);
+
   return (
-    <StyledButton>
-      {/* <StyledButton className="zx" onClick={toogleIsActive}>
+
+      <StyledButton className="zx" onClick={toogleIsActive}>
         {isActive ? "Active" : "Inactive"}
-      </StyledButton> */}
-      {/* {piotrek} */}zz
-    </StyledButton>
+      </StyledButton>
   );
 };
 

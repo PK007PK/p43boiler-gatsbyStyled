@@ -11,7 +11,6 @@ const BlogPage = ({ data }) => {
       {posts.map((post) => {
         return (
           <li key={post.fields.slug}>
-            <p>{piotrek}</p>
             <h3>{post.frontmatter.title}</h3>
             <p>{post.frontmatter.description}</p>
             <Link to={post.fields.slug} itemProp="url">
