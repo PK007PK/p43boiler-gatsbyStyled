@@ -2,19 +2,18 @@ import React from 'react';
 import { Link, graphql } from 'gatsby';
 
 import SEO from '../components/SEO';
-// import { MDBContainer } from "mdbreact";
 
-const BlogPostTemplate = ({ data, location }) => {
+const BlogPostTemplate = ({ data }) => {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata?.title || `Title`;
   const { previous, next } = data;
 
   return (
     <div>
-      <SEO
+      {/* <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
-      />
+      /> */}
 
       <article
         className="blog-post"
