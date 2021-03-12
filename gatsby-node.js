@@ -57,7 +57,7 @@ export const onCreateNode = ({ node, actions, getNode }) => {
   }
 };
 
-export const createBlogPages = async ({ graphql, actions, reporter }) => {
+export const createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
   // Define a template for blog post

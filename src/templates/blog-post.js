@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, graphql } from 'gatsby';
+import Layout from '../components/Layout';
 
 import SEO from '../components/SEO';
 
@@ -9,11 +10,11 @@ const BlogPostTemplate = ({ data }) => {
   const { previous, next } = data;
 
   return (
-    <div>
-      {/* <SEO
+    <Layout>
+      <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
-      /> */}
+      />
 
       <article
         className="blog-post"
@@ -56,7 +57,7 @@ const BlogPostTemplate = ({ data }) => {
           </li>
         </ul>
       </nav>
-    </div>
+    </Layout>
   );
 };
 
