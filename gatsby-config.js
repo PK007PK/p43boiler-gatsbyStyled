@@ -1,9 +1,13 @@
-module.exports = {
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env' });
+
+export default {
   siteMetadata: {
     title: 'Gatsby boilerplate',
     description: 'Gatsby starter site',
     siteUrl: 'https://pkgatsbystarter.netlify.com',
-    language: 'eng',
+    language: 'en',
   },
   flags: { DEV_SSR: true },
   plugins: [
