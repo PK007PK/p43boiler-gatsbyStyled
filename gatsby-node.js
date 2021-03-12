@@ -1,41 +1,45 @@
-// import path, { resolve } from 'path';
-// import fetch from 'isomorphic-fetch';
+import path, { resolve } from 'path';
+import slugify from 'slugify';
+import createFilePath from 'gatsby-source-filesystem';
+import fetch from 'isomorphic-fetch';
 
-// async function turnPostsIntoPages({ graphql, actions }) {
-//   // 1. Get a template for this page
-//   const blogPostTemplate = path.resolve('./src/templates/blog-post.js');
+async function turnPostsIntoPages({ graphql, actions }) {
+  // 1. Get a template for this page
+  const postTemplate = path.resolve('./src/templates/blog-post.js');
+  // 2. Query all pizzas
+  const { data } = await graphql(`
+    query {
+      allMarkdownRemark {
+        nodes {
+          frontmatter {
+            title
+            date
+          }
+        }
+      }
+    }
+  `);
+  // 3. Loop over each pizza and create a page for that pizza
 
-//   // 2. Query all posts
-//   const { data } = await graphql(`
-//     {
-//       allMarkdownRemark(
-//         sort: { fields: [frontmatter___date], order: ASC }
-//         limit: 1000
-//       ) {
-//         nodes {
-//           id
-//           fields {
-//             slug
-//           }
-//         }
-//       }
-//     }
-//   `);
-//   // 3. Loop over each pizza and create a page for that pizza
-//   data.allMarkdownRemark.nodes.forEach((post) => {
-//     actions.createPage({
-//       // What is the URL for this new page??
-//       path: `posts/${post.slug.current}`,
-//       component: blogPostTemplate,
-//       context: {
-//         slug: post.slug.current,
-//       },
-//     });
-//   });
-// }
+  data.allMarkdownRemark.nodes.forEach((page) => {
+    const slug = slugify(
+      `${page.frontmatter.date.substring(0, 10)}-${page.frontmatter.title}`
+    );
+    actions.createPage({
+      path: `post/${slug}`,
+      component: postTemplate,
+      context: {
+        slug,
+      },
+    });
+  });
+}
 
-// export async function createPages(params) {
-//   // Create pages dynamically
-//   // Wait for all promises to be resolved before finishing this function
-//   await Promise.all([turnPostsIntoPages(params)]);
-// }
+export async function createPages(params) {
+  // Create pages dynamically
+  // Wait for all promises to be resolved before finishing this function
+  await Promise.all([turnPostsIntoPages(params)]);
+  // 1. Pizzas
+  // 2. Toppings
+  // 3. Slicemasters
+}
