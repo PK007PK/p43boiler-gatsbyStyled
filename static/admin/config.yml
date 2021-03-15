@@ -20,6 +20,53 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Description", name: "description", widget: "string" }
-      - { label: "Tags", name: "tags", widget: "list" }
+      - {
+          widget: relation,
+          name: category,
+          label: "Category",
+          required: true,
+          collection: categories,
+          valueField: slug,
+          searchFields: ["name"],
+          displayFields: ["name"],
+        }
+        - {
+          widget: relation,
+          name: tag,
+          label: "Tags",
+          required: false,
+          collection: tags,
+          valueField: slug,
+          searchFields: ["name"],
+          displayFields: ["name"],
+        }
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
+  - name: categories
+      label: Excercises categories
+      folder: content/categories
+      create: true
+      slug: "{{slug}}"
+      fields:
+        - widget: string
+          name: name
+          label: Name
+          required: true
+        - widget: string
+          name: slug
+          label: Slug
+          required: true
+  - name: tags
+      label: Tags
+      folder: content/tags
+      create: true
+      slug: "{{slug}}"
+      fields:
+        - widget: string
+          name: name
+          label: Name
+          required: true
+        - widget: string
+          name: slug
+          label: Slug
+          required: true
