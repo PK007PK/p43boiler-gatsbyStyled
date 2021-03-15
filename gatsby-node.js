@@ -57,11 +57,9 @@ export const onCreateNode = ({ node, actions, getNode }) => {
   }
 };
 
-export const createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions;
-
+async function createBlogPages({ graphql, actions, reporter }) {
   // Define a template for blog post
-  const blogPost = path.resolve(`./src/templates/blog-post.js`);
+  const blogPostTemplate = path.resolve(`./src/templates/blog-post.js`);
 
   // Get all markdown blog posts sorted by date
   const result = await graphql(
@@ -102,9 +100,9 @@ export const createPages = async ({ graphql, actions, reporter }) => {
       const nextPostId =
         index === posts.length - 1 ? null : posts[index + 1].id;
 
-      createPage({
+      actions.createPage({
         path: post.fields.slug,
-        component: blogPost,
+        component: blogPostTemplate,
         context: {
           id: post.id,
           previousPostId,
@@ -113,4 +111,10 @@ export const createPages = async ({ graphql, actions, reporter }) => {
       });
     });
   }
-};
+}
+
+export async function createPages(params) {
+  // Create pages dynamically
+  // Wait for all promises to be resolved before finishing this function
+  await Promise.all([createBlogPages(params)]);
+}

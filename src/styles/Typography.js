@@ -6,6 +6,7 @@ const Typography = createGlobalStyle`
   @font-face {
     font-family: FrenchFries;
     src: url(${font});
+    font-display: swap;
   }
 
   html {
