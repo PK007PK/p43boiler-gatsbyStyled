@@ -29,6 +29,7 @@ collections:
           valueField: slug,
           searchFields: ["name"],
           displayFields: ["name"],
+          multiple: true,
         }
       - {
         widget: relation,
@@ -39,6 +40,7 @@ collections:
         valueField: slug,
         searchFields: ["name"],
         displayFields: ["name"],
+        multiple: true,
       }
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
