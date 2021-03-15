@@ -30,16 +30,16 @@ collections:
           searchFields: ["name"],
           displayFields: ["name"],
         }
-        - {
-          widget: relation,
-          name: tag,
-          label: "Tags",
-          required: false,
-          collection: tags,
-          valueField: slug,
-          searchFields: ["name"],
-          displayFields: ["name"],
-        }
+      - {
+        widget: relation,
+        name: tag,
+        label: "Tags",
+        required: false,
+        collection: tags,
+        valueField: slug,
+        searchFields: ["name"],
+        displayFields: ["name"],
+      }
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: categories
