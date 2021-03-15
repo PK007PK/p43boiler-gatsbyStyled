@@ -43,30 +43,30 @@ collections:
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "categories"
-      label: Excercises categories
-      folder: content/categories
-      create: true
-      slug: "{{slug}}"
-      fields:
-        - widget: string
-          name: name
-          label: Name
-          required: true
-        - widget: string
-          name: slug
-          label: Slug
-          required: true
+    label: Excercises categories
+    folder: content/categories
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - widget: string
+        name: name
+        label: Name
+        required: true
+      - widget: string
+        name: slug
+        label: Slug
+        required: true
   - name: "tags"
-      label: Tags
-      folder: content/tags
-      create: true
-      slug: "{{slug}}"
-      fields:
-        - widget: string
-          name: name
-          label: Name
-          required: true
-        - widget: string
-          name: slug
-          label: Slug
-          required: true
+    label: Tags
+    folder: content/tags
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - widget: string
+        name: name
+        label: Name
+        required: true
+      - widget: string
+        name: slug
+        label: Slug
+        required: true
