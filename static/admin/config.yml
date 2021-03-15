@@ -42,7 +42,7 @@ collections:
       }
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
-  - name: categories
+  - name: "categories"
       label: Excercises categories
       folder: content/categories
       create: true
@@ -56,7 +56,7 @@ collections:
           name: slug
           label: Slug
           required: true
-  - name: tags
+  - name: "tags"
       label: Tags
       folder: content/tags
       create: true
