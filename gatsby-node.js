@@ -66,6 +66,7 @@ async function createBlogPages({ graphql, actions, reporter }) {
     `
       {
         allMarkdownRemark(
+          filter: { fileAbsolutePath: { regex: "/blog/i" } }
           sort: { fields: [frontmatter___date], order: ASC }
           limit: 1000
         ) {
@@ -113,8 +114,72 @@ async function createBlogPages({ graphql, actions, reporter }) {
   }
 }
 
+async function turnCategoriesIntoPages({ graphql, actions }) {
+  // 1. Get the template
+  const categoryTemplate = path.resolve('./src/pages/blog.js');
+  // 2. query all the categories
+  const { data } = await graphql(`
+    query {
+      allMarkdownRemark(
+        filter: { fileAbsolutePath: { regex: "/categories/i" } }
+      ) {
+        nodes {
+          frontmatter {
+            name
+            slug
+          }
+        }
+      }
+    }
+  `);
+  // 3. createPage
+  data.allMarkdownRemark.nodes.forEach((category) => {
+    actions.createPage({
+      path: `category/${category.frontmatter.slug}`,
+      component: categoryTemplate,
+      context: {
+        category: category.frontmatter.name,
+        categoryRegex: `/${category.frontmatter.slug}/i`,
+        selectPosts: `/${category.frontmatter.slug}/i`,
+      },
+    });
+  });
+}
+
+async function turnTagsIntoPages({ graphql, actions }) {
+  // 1. Get the template
+  const tagTemplate = path.resolve('./src/pages/blog.js');
+  // 2. query all the categories
+  const { data } = await graphql(`
+    query {
+      allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/tags/i" } }) {
+        nodes {
+          frontmatter {
+            name
+            slug
+          }
+        }
+      }
+    }
+  `);
+  // 3. createPage
+  data.allMarkdownRemark.nodes.forEach((tag) => {
+    actions.createPage({
+      path: `tags/${tag.frontmatter.slug}`,
+      component: tagTemplate,
+      context: {
+        tag: tag.frontmatter.name,
+        tagRegex: `/${tag.frontmatter.slug}/i`,
+        selectPosts: `/${tag.frontmatter.slug}/i`,
+      },
+    });
+  });
+}
+
 export async function createPages(params) {
   // Create pages dynamically
   // Wait for all promises to be resolved before finishing this function
   await Promise.all([createBlogPages(params)]);
+  await Promise.all([turnCategoriesIntoPages(params)]);
+  await Promise.all([turnTagsIntoPages(params)]);
 }

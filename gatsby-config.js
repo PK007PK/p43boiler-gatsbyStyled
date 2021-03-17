@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-dotenv.config({ path: '.env' });
+// dotenv.config({ path: '.env' });
 
 export default {
   siteMetadata: {
@@ -23,6 +23,20 @@ export default {
       options: {
         path: `${__dirname}/content/blog`,
         name: `blog`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content/categories`,
+        name: `categories`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content/tags`,
+        name: `tags`,
       },
     },
     {
