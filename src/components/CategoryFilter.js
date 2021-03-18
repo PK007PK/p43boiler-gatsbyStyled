@@ -23,7 +23,7 @@ export default function CategoryFilter() {
 
   return (
     <div>
-      <Link to="/blog" activeStyle={{ color: 'red' }}>
+      <Link to="/blog/1" activeStyle={{ color: 'red' }}>
         <span className="name">All categories</span>
       </Link>
       <br />

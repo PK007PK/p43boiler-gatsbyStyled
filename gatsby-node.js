@@ -70,6 +70,7 @@ async function createBlogPages({ graphql, actions, reporter }) {
           sort: { fields: [frontmatter___date], order: ASC }
           limit: 1000
         ) {
+          totalCount
           nodes {
             id
             fields {
@@ -112,6 +113,26 @@ async function createBlogPages({ graphql, actions, reporter }) {
       });
     });
   }
+
+  // Create pagination
+  const pageSize = 2;
+  const pageCount = Math.ceil(
+    result.data.allMarkdownRemark.totalCount / pageSize
+  );
+  // Loop from 1 to n and create the pages for them
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    actions.createPage({
+      path: `/blog/${i + 1}`,
+      component: path.resolve('./src/pages/blog.js'),
+      // This data is pass to the template when we create it
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+        pageType: 'allPaginatedPosts',
+      },
+    });
+  });
 }
 
 async function turnCategoriesIntoPages({ graphql, actions }) {
@@ -141,6 +162,7 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
         category: category.frontmatter.name,
         categoryRegex: `/${category.frontmatter.slug}/i`,
         selectPosts: `/${category.frontmatter.slug}/i`,
+        pageType: 'allPostsInCategory',
       },
     });
   });
@@ -171,6 +193,7 @@ async function turnTagsIntoPages({ graphql, actions }) {
         tag: tag.frontmatter.name,
         tagRegex: `/${tag.frontmatter.slug}/i`,
         selectPosts: `/${tag.frontmatter.slug}/i`,
+        pageType: 'allPostsInTag',
       },
     });
   });

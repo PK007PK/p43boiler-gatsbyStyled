@@ -4,15 +4,33 @@ import { graphql, Link } from 'gatsby';
 import Layout from '../components/Layout';
 import CategoryFilter from '../components/CategoryFilter';
 import TagsFilter from '../components/TagsFilter';
+import Pagination from '../components/Pagination';
 
-const BlogPage = ({ data }) => {
-  const categories = data.category.nodes;
-  const tags = data.tag.nodes;
-  const posts = categories.length > 0 ? categories : tags;
+const BlogPage = ({ data, pageContext }) => {
+  const categories = data.category;
+  const tags = data.tag;
+  const { allPosts } = data;
+  console.log(pageContext);
+  console.log('Data: ', data);
+  let postsToDisplay;
+  switch (pageContext.pageType) {
+    case 'allPaginatedPosts':
+      postsToDisplay = allPosts;
+      break;
+    case 'allPostsInCategory':
+      postsToDisplay = categories;
+      break;
+    case 'allPostsInTag':
+      postsToDisplay = tags;
+      break;
+    default:
+      postsToDisplay = allPosts;
+  }
+  console.log('postsToDisplay', postsToDisplay);
 
   const DisplayPosts = () => (
     <ul style={{ listStyle: `none`, paddingLeft: 0 }}>
-      {posts
+      {postsToDisplay.nodes
         .filter((post) => post.frontmatter.date !== null)
         .map((post) => (
           <li key={post.fields.slug}>
@@ -32,21 +50,34 @@ const BlogPage = ({ data }) => {
       <CategoryFilter />
       <TagsFilter />
       <DisplayPosts />
+      <Pagination
+        pageSize={2}
+        totalCount={postsToDisplay.totalCount}
+        currentPage={pageContext.currentPage || 1}
+        skip={pageContext.skip}
+        base="/blog"
+      />
     </Layout>
   );
 };
 
 export const pageQuery = graphql`
-  query pagesQuery($selectPosts: String) {
+  query pagesQuery($selectPosts: String, $skip: Int = 0, $pageSize: Int = 2) {
     site {
       siteMetadata {
         title
       }
     }
     category: allMarkdownRemark(
+      limit: $pageSize
+      skip: $skip
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { category: { regex: $selectPosts } } }
+      filter: {
+        fileAbsolutePath: { regex: "/blog/" }
+        frontmatter: { category: { regex: $selectPosts } }
+      }
     ) {
+      totalCount
       nodes {
         excerpt
         fields {
@@ -56,21 +87,19 @@ export const pageQuery = graphql`
           date(formatString: "YYYY-MM-DD")
           title
           description
-          # tags
-          #   thumbnail {
-          #     childImageSharp {
-          #       fluid {
-          #         ...GatsbyImageSharpFluid_tracedSVG
-          #       }
-          #     }
-          #   }
         }
       }
     }
     tag: allMarkdownRemark(
+      limit: $pageSize
+      skip: $skip
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tag: { regex: $selectPosts } } }
+      filter: {
+        fileAbsolutePath: { regex: "/blog/" }
+        frontmatter: { tag: { regex: $selectPosts } }
+      }
     ) {
+      totalCount
       nodes {
         excerpt
         fields {
@@ -80,14 +109,25 @@ export const pageQuery = graphql`
           date(formatString: "YYYY-MM-DD")
           title
           description
-          # tags
-          #   thumbnail {
-          #     childImageSharp {
-          #       fluid {
-          #         ...GatsbyImageSharpFluid_tracedSVG
-          #       }
-          #     }
-          #   }
+        }
+      }
+    }
+    allPosts: allMarkdownRemark(
+      limit: $pageSize
+      skip: $skip
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { fileAbsolutePath: { regex: "/blog/" } }
+    ) {
+      totalCount
+      nodes {
+        excerpt
+        fields {
+          slug
+        }
+        frontmatter {
+          date(formatString: "YYYY-MM-DD")
+          title
+          description
         }
       }
     }
