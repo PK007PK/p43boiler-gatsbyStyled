@@ -1,5 +1,6 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
+import { typeOf } from 'react-is';
 
 export const createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -62,7 +63,8 @@ async function createBlogPages({ graphql, actions, reporter }) {
   const blogPostTemplate = path.resolve(`./src/templates/blog-post.js`);
 
   // Get all markdown blog posts sorted by date
-  const result = await graphql(
+
+  const { data } = await graphql(
     `
       {
         allMarkdownRemark(
@@ -70,6 +72,7 @@ async function createBlogPages({ graphql, actions, reporter }) {
           sort: { fields: [frontmatter___date], order: ASC }
           limit: 1000
         ) {
+          totalCount
           nodes {
             id
             fields {
@@ -81,15 +84,15 @@ async function createBlogPages({ graphql, actions, reporter }) {
     `
   );
 
-  if (result.errors) {
+  if (data.errors) {
     reporter.panicOnBuild(
       `There was an error loading your blog posts`,
-      result.errors
+      data.errors
     );
     return;
   }
 
-  const posts = result.data.allMarkdownRemark.nodes;
+  const posts = data.allMarkdownRemark.nodes;
 
   // Create blog posts pages
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
@@ -112,11 +115,31 @@ async function createBlogPages({ graphql, actions, reporter }) {
       });
     });
   }
+
+  // Create pagination
+  const pageSize = 2;
+  const pageCount = Math.ceil(data.allMarkdownRemark.totalCount / pageSize);
+  // Loop from 1 to n and create the pages for them
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    actions.createPage({
+      path: `/blog/${i + 1}`,
+      component: path.resolve('./src/pages/blog.js'),
+      // This data is pass to the template when we create it
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+        pageType: 'allPaginatedPosts',
+        dirName: `/blog`,
+      },
+    });
+  });
 }
 
 async function turnCategoriesIntoPages({ graphql, actions }) {
   // 1. Get the template
   const categoryTemplate = path.resolve('./src/pages/blog.js');
+
   // 2. query all the categories
   const { data } = await graphql(`
     query {
@@ -132,16 +155,46 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
       }
     }
   `);
+
   // 3. createPage
   data.allMarkdownRemark.nodes.forEach((category) => {
-    actions.createPage({
-      path: `category/${category.frontmatter.slug}`,
-      component: categoryTemplate,
-      context: {
-        category: category.frontmatter.name,
-        categoryRegex: `/${category.frontmatter.slug}/i`,
-        selectPosts: `/${category.frontmatter.slug}/i`,
-      },
+    async function countPost() {
+      const selectCategory = `"/${category.frontmatter.slug}/"`;
+
+      const categoryDetails = await graphql(`
+        query myQuery {
+          allMarkdownRemark(
+            filter: {
+              fileAbsolutePath: { regex: "/blog/" }
+              frontmatter: { category: { regex: ${selectCategory} } }
+            }
+          ) {
+            totalCount
+          }
+        }
+      `);
+      return categoryDetails;
+    }
+
+    countPost().then((result) => {
+      const pageSize = 2;
+      const allPostsInCategory = result.data.allMarkdownRemark.totalCount;
+      const pageCount = Math.ceil(allPostsInCategory / pageSize);
+
+      Array.from({ length: pageCount }).forEach((_, i) => {
+        actions.createPage({
+          path: `/${category.frontmatter.slug}/${i + 1}`,
+          component: categoryTemplate,
+          context: {
+            skip: i * pageSize,
+            currentPage: i + 1,
+            pageSize,
+            selectPosts: `/${category.frontmatter.slug}/i`,
+            pageType: 'allPostsInCategory',
+            dirName: `/${category.frontmatter.slug}`,
+          },
+        });
+      });
     });
   });
 }
@@ -149,6 +202,7 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
 async function turnTagsIntoPages({ graphql, actions }) {
   // 1. Get the template
   const tagTemplate = path.resolve('./src/pages/blog.js');
+
   // 2. query all the categories
   const { data } = await graphql(`
     query {
@@ -162,16 +216,46 @@ async function turnTagsIntoPages({ graphql, actions }) {
       }
     }
   `);
+
   // 3. createPage
   data.allMarkdownRemark.nodes.forEach((tag) => {
-    actions.createPage({
-      path: `tags/${tag.frontmatter.slug}`,
-      component: tagTemplate,
-      context: {
-        tag: tag.frontmatter.name,
-        tagRegex: `/${tag.frontmatter.slug}/i`,
-        selectPosts: `/${tag.frontmatter.slug}/i`,
-      },
+    async function countPostForTag() {
+      const selectTag = `"/${tag.frontmatter.slug}/"`;
+
+      const tagDetails = await graphql(`
+        query myQuery {
+          allMarkdownRemark(
+            filter: {
+              fileAbsolutePath: { regex: "/blog/" }
+              frontmatter: { tag: { regex: ${selectTag} } }
+            }
+          ) {
+            totalCount
+          }
+        }
+      `);
+      return tagDetails;
+    }
+
+    countPostForTag().then((result) => {
+      const pageSize = 2;
+      const allPostsForTag = result.data.allMarkdownRemark.totalCount;
+      const pageCount = Math.ceil(allPostsForTag / pageSize);
+
+      Array.from({ length: pageCount }).forEach((_, i) => {
+        actions.createPage({
+          path: `/${tag.frontmatter.slug}/${i + 1}`,
+          component: tagTemplate,
+          context: {
+            skip: i * pageSize,
+            currentPage: i + 1,
+            pageSize,
+            selectPosts: `/${tag.frontmatter.slug}/i`,
+            pageType: 'allPostsInTag',
+            dirName: `/${tag.frontmatter.slug}`,
+          },
+        });
+      });
     });
   });
 }
