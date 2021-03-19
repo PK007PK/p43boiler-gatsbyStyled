@@ -24,13 +24,13 @@ export default function CategoryFilter() {
   return (
     <div>
       <Link to="/blog/1" activeStyle={{ color: 'red' }}>
-        <span className="name">All categories</span>
+        <span className="name">All posts</span>
       </Link>
       <br />
       {categories.map((category) => (
         <Link
           activeStyle={{ color: 'red' }}
-          to={`/category/${category.frontmatter.slug}/1`}
+          to={`/${category.frontmatter.slug}/1`}
           key={category.frontmatter.slug}
         >
           {category.frontmatter.name}

@@ -130,6 +130,7 @@ async function createBlogPages({ graphql, actions, reporter }) {
         currentPage: i + 1,
         pageSize,
         pageType: 'allPaginatedPosts',
+        dirName: `/blog`,
       },
     });
   });
@@ -156,7 +157,6 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
   `);
 
   // 3. createPage
-  const pageSize = 2;
 
   data.allMarkdownRemark.nodes.forEach((category) => {
     // ile ma być podstron w kategorii ?
@@ -179,32 +179,22 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
       return categoryDetails;
     }
 
-    // countPost().then((result) => console.log(result));
-    // (async () => {
-    //   const countedPostsInCategory = await countPost();
-    //   return countedPostsInCategory;
-    // })();
-
-    // console.log(countedPostsInCategory);
-    // const abc = countPost().then((value) => value);
-    // console.log(abc.data.allMarkdownRemark.totalCount);
-    //
-
     countPost().then((result) => {
+      const pageSize = 2;
       const allPostsInCategory = result.data.allMarkdownRemark.totalCount;
-
       const pageCount = Math.ceil(allPostsInCategory / pageSize);
 
       Array.from({ length: pageCount }).forEach((_, i) => {
         actions.createPage({
-          path: `category/${category.frontmatter.slug}/${i + 1}`,
+          path: `/${category.frontmatter.slug}/${i + 1}`,
           component: categoryTemplate,
           context: {
-            category: category.frontmatter.name,
-            categoryRegex: `/${category.frontmatter.slug}/i`,
+            skip: i * pageSize,
+            currentPage: i + 1,
+            pageSize,
             selectPosts: `/${category.frontmatter.slug}/i`,
             pageType: 'allPostsInCategory',
-            // xxx: categoryDetails.data.allMarkdownRemark.totalCount,
+            dirName: `/${category.frontmatter.slug}`,
           },
         });
       });

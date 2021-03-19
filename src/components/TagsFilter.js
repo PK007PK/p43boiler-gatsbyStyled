@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
-import styled from 'styled-components';
 
 export default function TagsFilter() {
   const data = useStaticQuery(graphql`
@@ -23,10 +22,6 @@ export default function TagsFilter() {
 
   return (
     <div>
-      <Link to="/blog/1" activeStyle={{ color: 'red' }}>
-        <span className="name">All tags</span>
-      </Link>
-      <br />
       {tags.map((tag) => (
         <Link
           activeStyle={{ color: 'red' }}

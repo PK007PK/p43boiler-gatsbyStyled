@@ -7,11 +7,14 @@ import TagsFilter from '../components/TagsFilter';
 import Pagination from '../components/Pagination';
 
 const BlogPage = ({ data, pageContext }) => {
+  if (pageContext.dirName === undefined) {
+    pageContext.dirName = `/blog`;
+  }
+
+  console.log('Page context: ', pageContext);
   const categories = data.category;
   const tags = data.tag;
   const { allPosts } = data;
-  console.log(pageContext);
-  console.log('Data: ', data);
   let postsToDisplay;
   switch (pageContext.pageType) {
     case 'allPaginatedPosts':
@@ -54,7 +57,7 @@ const BlogPage = ({ data, pageContext }) => {
         totalCount={postsToDisplay.totalCount}
         currentPage={pageContext.currentPage || 1}
         skip={pageContext.skip}
-        base="/blog"
+        base={pageContext.dirName}
       />
     </Layout>
   );
