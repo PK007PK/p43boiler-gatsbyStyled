@@ -139,13 +139,13 @@ async function createBlogPages({ graphql, actions, reporter }) {
 async function turnCategoriesIntoPages({ graphql, actions }) {
   // 1. Get the template
   const categoryTemplate = path.resolve('./src/pages/blog.js');
+
   // 2. query all the categories
   const { data } = await graphql(`
     query {
       allMarkdownRemark(
         filter: { fileAbsolutePath: { regex: "/categories/i" } }
       ) {
-        totalCount
         nodes {
           frontmatter {
             name
@@ -157,10 +157,7 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
   `);
 
   // 3. createPage
-
   data.allMarkdownRemark.nodes.forEach((category) => {
-    // ile ma być podstron w kategorii ?
-
     async function countPost() {
       const selectCategory = `"/${category.frontmatter.slug}/"`;
 
@@ -205,6 +202,7 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
 async function turnTagsIntoPages({ graphql, actions }) {
   // 1. Get the template
   const tagTemplate = path.resolve('./src/pages/blog.js');
+
   // 2. query all the categories
   const { data } = await graphql(`
     query {
@@ -218,17 +216,46 @@ async function turnTagsIntoPages({ graphql, actions }) {
       }
     }
   `);
+
   // 3. createPage
   data.allMarkdownRemark.nodes.forEach((tag) => {
-    actions.createPage({
-      path: `tags/${tag.frontmatter.slug}`,
-      component: tagTemplate,
-      context: {
-        tag: tag.frontmatter.name,
-        tagRegex: `/${tag.frontmatter.slug}/i`,
-        selectPosts: `/${tag.frontmatter.slug}/i`,
-        pageType: 'allPostsInTag',
-      },
+    async function countPostForTag() {
+      const selectTag = `"/${tag.frontmatter.slug}/"`;
+
+      const tagDetails = await graphql(`
+        query myQuery {
+          allMarkdownRemark(
+            filter: {
+              fileAbsolutePath: { regex: "/blog/" }
+              frontmatter: { tag: { regex: ${selectTag} } }
+            }
+          ) {
+            totalCount
+          }
+        }
+      `);
+      return tagDetails;
+    }
+
+    countPostForTag().then((result) => {
+      const pageSize = 2;
+      const allPostsForTag = result.data.allMarkdownRemark.totalCount;
+      const pageCount = Math.ceil(allPostsForTag / pageSize);
+
+      Array.from({ length: pageCount }).forEach((_, i) => {
+        actions.createPage({
+          path: `/${tag.frontmatter.slug}/${i + 1}`,
+          component: tagTemplate,
+          context: {
+            skip: i * pageSize,
+            currentPage: i + 1,
+            pageSize,
+            selectPosts: `/${tag.frontmatter.slug}/i`,
+            pageType: 'allPostsInTag',
+            dirName: `/${tag.frontmatter.slug}`,
+          },
+        });
+      });
     });
   });
 }

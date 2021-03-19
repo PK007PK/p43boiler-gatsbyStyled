@@ -25,7 +25,7 @@ export default function TagsFilter() {
       {tags.map((tag) => (
         <Link
           activeStyle={{ color: 'red' }}
-          to={`/tags/${tag.frontmatter.slug}`}
+          to={`/${tag.frontmatter.slug}/1`}
           key={tag.frontmatter.slug}
         >
           {tag.frontmatter.name}
