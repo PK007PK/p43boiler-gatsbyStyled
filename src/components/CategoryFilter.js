@@ -30,7 +30,7 @@ export default function CategoryFilter() {
       {categories.map((category) => (
         <Link
           activeStyle={{ color: 'red' }}
-          to={`/category/${category.frontmatter.slug}`}
+          to={`/category/${category.frontmatter.slug}/1`}
           key={category.frontmatter.slug}
         >
           {category.frontmatter.name}

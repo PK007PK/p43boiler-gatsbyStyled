@@ -1,5 +1,6 @@
 import path from 'path';
 import { createFilePath } from 'gatsby-source-filesystem';
+import { typeOf } from 'react-is';
 
 export const createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -62,7 +63,8 @@ async function createBlogPages({ graphql, actions, reporter }) {
   const blogPostTemplate = path.resolve(`./src/templates/blog-post.js`);
 
   // Get all markdown blog posts sorted by date
-  const result = await graphql(
+
+  const { data } = await graphql(
     `
       {
         allMarkdownRemark(
@@ -82,15 +84,15 @@ async function createBlogPages({ graphql, actions, reporter }) {
     `
   );
 
-  if (result.errors) {
+  if (data.errors) {
     reporter.panicOnBuild(
       `There was an error loading your blog posts`,
-      result.errors
+      data.errors
     );
     return;
   }
 
-  const posts = result.data.allMarkdownRemark.nodes;
+  const posts = data.allMarkdownRemark.nodes;
 
   // Create blog posts pages
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
@@ -116,9 +118,7 @@ async function createBlogPages({ graphql, actions, reporter }) {
 
   // Create pagination
   const pageSize = 2;
-  const pageCount = Math.ceil(
-    result.data.allMarkdownRemark.totalCount / pageSize
-  );
+  const pageCount = Math.ceil(data.allMarkdownRemark.totalCount / pageSize);
   // Loop from 1 to n and create the pages for them
   Array.from({ length: pageCount }).forEach((_, i) => {
     actions.createPage({
@@ -144,6 +144,7 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
       allMarkdownRemark(
         filter: { fileAbsolutePath: { regex: "/categories/i" } }
       ) {
+        totalCount
         nodes {
           frontmatter {
             name
@@ -153,17 +154,60 @@ async function turnCategoriesIntoPages({ graphql, actions }) {
       }
     }
   `);
+
   // 3. createPage
+  const pageSize = 2;
+
   data.allMarkdownRemark.nodes.forEach((category) => {
-    actions.createPage({
-      path: `category/${category.frontmatter.slug}`,
-      component: categoryTemplate,
-      context: {
-        category: category.frontmatter.name,
-        categoryRegex: `/${category.frontmatter.slug}/i`,
-        selectPosts: `/${category.frontmatter.slug}/i`,
-        pageType: 'allPostsInCategory',
-      },
+    // ile ma być podstron w kategorii ?
+
+    async function countPost() {
+      const selectCategory = `"/${category.frontmatter.slug}/"`;
+
+      const categoryDetails = await graphql(`
+        query myQuery {
+          allMarkdownRemark(
+            filter: {
+              fileAbsolutePath: { regex: "/blog/" }
+              frontmatter: { category: { regex: ${selectCategory} } }
+            }
+          ) {
+            totalCount
+          }
+        }
+      `);
+      return categoryDetails;
+    }
+
+    // countPost().then((result) => console.log(result));
+    // (async () => {
+    //   const countedPostsInCategory = await countPost();
+    //   return countedPostsInCategory;
+    // })();
+
+    // console.log(countedPostsInCategory);
+    // const abc = countPost().then((value) => value);
+    // console.log(abc.data.allMarkdownRemark.totalCount);
+    //
+
+    countPost().then((result) => {
+      const allPostsInCategory = result.data.allMarkdownRemark.totalCount;
+
+      const pageCount = Math.ceil(allPostsInCategory / pageSize);
+
+      Array.from({ length: pageCount }).forEach((_, i) => {
+        actions.createPage({
+          path: `category/${category.frontmatter.slug}/${i + 1}`,
+          component: categoryTemplate,
+          context: {
+            category: category.frontmatter.name,
+            categoryRegex: `/${category.frontmatter.slug}/i`,
+            selectPosts: `/${category.frontmatter.slug}/i`,
+            pageType: 'allPostsInCategory',
+            // xxx: categoryDetails.data.allMarkdownRemark.totalCount,
+          },
+        });
+      });
     });
   });
 }

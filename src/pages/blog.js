@@ -26,7 +26,6 @@ const BlogPage = ({ data, pageContext }) => {
     default:
       postsToDisplay = allPosts;
   }
-  console.log('postsToDisplay', postsToDisplay);
 
   const DisplayPosts = () => (
     <ul style={{ listStyle: `none`, paddingLeft: 0 }}>
