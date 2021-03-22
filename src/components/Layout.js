@@ -1,5 +1,4 @@
 import React from 'react';
-import 'normalize.css';
 import GlobalStyles from '../styles/GlobalStyles';
 import Navbar from './Navbar';
 import Footer from './Footer';

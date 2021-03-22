@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Button from '../components/Button';
 import Layout from '../components/Layout';
 import SEO from '../components/SEO';
 
@@ -19,7 +18,7 @@ const IndexPage = () => (
           <ul>
             <li>App logic accesible through AppProvider (context component)</li>
             <li>
-              Context component conected to gatsby using browser and ssr files
+              Context component conected to gatsby using browser and ssr file
             </li>
             <li>Layout as a separate component added directly to pages</li>
             <li>Theme conected together with context component</li>
@@ -42,7 +41,11 @@ const IndexPage = () => (
               styled component
             </li>
             <li>
-              Adding fonts using global styles (font files in "static" folder){' '}
+              Css files added through gatsby-browser (normalize and index.css)
+            </li>
+            <li>
+              Adding fonts using css file (to avoid strange problem with styled
+              components)
             </li>
             <li>
               Project contains theme file (src/styles/theme) with default media
@@ -51,10 +54,11 @@ const IndexPage = () => (
           </ul>
         </article>
         <article>
-          <h3>Standarized components</h3>
+          <h3>Included components</h3>
           <ul>
             <li>Layout</li>
             <li>SEO</li>
+            <li>Components for blog functionality</li>
             <li>
               BootsElements: basic bootstrap-like grid components
               (BootsContainer, BootsRow, BootsColumn)
@@ -62,10 +66,20 @@ const IndexPage = () => (
           </ul>
         </article>
         <article>
-          <h3>Dependencies</h3>
+          <h3>Blog functionality</h3>
           <ul>
-            <li>EsLint</li>
-            <li>Normalize</li>
+            <li>Pagination for blog posts, categories posts, tags</li>
+          </ul>
+        </article>
+        <article>
+          <h3>ToDo</h3>
+          <ul>
+            <li>Add algolia search</li>
+            <li>Improve seo to cover all pages</li>
+            <li>Add favicon</li>
+            <li>Choose and add carousel</li>
+            <li>Choose and add accordion</li>
+            <li>Choose and add mobile menu</li>
           </ul>
         </article>
       </section>
