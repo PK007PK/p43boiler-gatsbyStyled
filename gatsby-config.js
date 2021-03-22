@@ -1,21 +1,22 @@
 // import dotenv from 'dotenv';
-
 // dotenv.config({ path: '.env' });
+import projectConfig from './projectConfig';
 
 export default {
   siteMetadata: {
-    title: 'Gatsby boilerplate',
-    description: 'Gatsby starter site',
-    siteUrl: 'https://pkgatsbystarter.netlify.com',
-    language: 'en',
+    title: projectConfig.title,
+    description: projectConfig.description,
+    siteUrl: projectConfig.siteUrl,
+    language: projectConfig.language,
   },
+
   flags: { DEV_SSR: true },
   plugins: [
     'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: 'xxxgoogleanaliticsxxx',
+        trackingId: projectConfig.trackingGoogleId,
       },
     },
     {

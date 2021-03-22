@@ -6,6 +6,8 @@ import CategoryFilter from '../components/CategoryFilter';
 import TagsFilter from '../components/TagsFilter';
 import Pagination from '../components/Pagination';
 
+import projectConfig from '../../projectConfig';
+
 const BlogPage = ({ data, pageContext }) => {
   if (pageContext.dirName === undefined) {
     pageContext.dirName = `/blog`;
@@ -53,7 +55,7 @@ const BlogPage = ({ data, pageContext }) => {
       <TagsFilter />
       <DisplayPosts />
       <Pagination
-        pageSize={2}
+        pageSize={projectConfig.pagesAmountInSet}
         totalCount={postsToDisplay.totalCount}
         currentPage={pageContext.currentPage || 1}
         skip={pageContext.skip}
@@ -64,7 +66,7 @@ const BlogPage = ({ data, pageContext }) => {
 };
 
 export const pageQuery = graphql`
-  query pagesQuery($selectPosts: String, $skip: Int = 0, $pageSize: Int = 2) {
+  query pagesQuery($selectPosts: String, $skip: Int = 0, $pageSize: Int = 4) {
     site {
       siteMetadata {
         title

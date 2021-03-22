@@ -77,9 +77,9 @@ const IndexPage = () => (
             <li>Add algolia search</li>
             <li>Improve seo to cover all pages</li>
             <li>Add favicon</li>
-            <li>Choose and add carousel</li>
-            <li>Choose and add accordion</li>
-            <li>Choose and add mobile menu</li>
+            <li>Add carousel</li>
+            <li>Add accordion</li>
+            <li>Add flexible mobile menu</li>
           </ul>
         </article>
       </section>
