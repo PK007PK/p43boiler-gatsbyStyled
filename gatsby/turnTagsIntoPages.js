@@ -53,6 +53,7 @@ export async function turnTagsIntoPages({ graphql, actions }) {
             currentPage: i + 1,
             pageSize,
             selectPosts: `/${tag.frontmatter.slug}/i`,
+            sellectionName: tag.frontmatter.name,
             pageType: 'allPostsInTag',
             dirName: `/${tag.frontmatter.slug}`,
           },

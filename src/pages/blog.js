@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, Link } from 'gatsby';
 
 import Layout from '../components/Layout';
+import SEO from '../components/SEO';
 import CategoryFilter from '../components/CategoryFilter';
 import TagsFilter from '../components/TagsFilter';
 import Pagination from '../components/Pagination';
@@ -12,11 +13,11 @@ const BlogPage = ({ data, pageContext }) => {
   if (pageContext.dirName === undefined) {
     pageContext.dirName = `/blog`;
   }
-
-  console.log('Page context: ', pageContext);
+  console.log(pageContext);
   const categories = data.category;
   const tags = data.tag;
   const { allPosts } = data;
+
   let postsToDisplay;
   switch (pageContext.pageType) {
     case 'allPaginatedPosts':
@@ -50,6 +51,11 @@ const BlogPage = ({ data, pageContext }) => {
 
   return (
     <Layout>
+      <SEO
+        title={`Blog page ${
+          pageContext.sellectionName ? `| ${pageContext.sellectionName}` : ''
+        } ${pageContext.currentPage ? `| ${pageContext.currentPage}` : ''}`}
+      />
       <h1>Blog page</h1>
       <CategoryFilter />
       <TagsFilter />
