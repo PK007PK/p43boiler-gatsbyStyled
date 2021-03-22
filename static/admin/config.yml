@@ -7,16 +7,21 @@ public_folder: /img
 
 collections:
   - name: "pages"
-      label: "Pages"
-      folder: "content/pages"
-      create: true
-      slug: "{{slug}}"
-      fields:
-        - {label: "Template", name: "template", widget: "hidden", default: "page"}
-        - {label: "Title", name: "title", widget: "string"}
-        - {label: "Slug", name: "slug", widget: "string"}
-        - {label: "Draft", name: "draft", widget: "boolean", default: true}
-        - {label: "Body", name: "body", widget: "markdown"}
+    label: "Pages"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {
+          label: "Template",
+          name: "template",
+          widget: "hidden",
+          default: "page",
+        }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: true }
+      - { label: "Body", name: "body", widget: "markdown" }
   - name: "blog"
     label: "Blog"
     folder: "content/blog"
@@ -43,16 +48,16 @@ collections:
           multiple: true,
         }
       - {
-        widget: relation,
-        name: tag,
-        label: "Tags",
-        required: false,
-        collection: tags,
-        valueField: slug,
-        searchFields: ["name"],
-        displayFields: ["name"],
-        multiple: true,
-      }
+          widget: relation,
+          name: tag,
+          label: "Tags",
+          required: false,
+          collection: tags,
+          valueField: slug,
+          searchFields: ["name"],
+          displayFields: ["name"],
+          multiple: true,
+        }
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "categories"
