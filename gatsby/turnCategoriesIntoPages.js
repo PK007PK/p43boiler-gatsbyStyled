@@ -1,4 +1,5 @@
 import path from 'path';
+import projectConfig from '../projectConfig';
 
 export async function turnCategoriesIntoPages({ graphql, actions }) {
   // 1. Get the template
@@ -41,7 +42,7 @@ export async function turnCategoriesIntoPages({ graphql, actions }) {
     }
 
     countPost().then((result) => {
-      const pageSize = 2;
+      const pageSize = projectConfig.pagesAmountInSet;
       const allPostsInCategory = result.data.allMarkdownRemark.totalCount;
       const pageCount = Math.ceil(allPostsInCategory / pageSize);
 

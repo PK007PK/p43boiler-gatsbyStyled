@@ -26,7 +26,7 @@ export default function Navbar() {
             <Link to="/test">Test</Link>
           </li>
           <li>
-            <Link to="/blog">Blog</Link>{' '}
+            <Link to="/blog/1">Blog</Link>{' '}
           </li>
         </ul>
       </BootsContainer>

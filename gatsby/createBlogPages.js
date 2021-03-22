@@ -1,4 +1,5 @@
 import path from 'path';
+import projectConfig from '../projectConfig';
 
 export async function createBlogPages({ graphql, actions, reporter }) {
   // Define a template for blog post
@@ -58,7 +59,7 @@ export async function createBlogPages({ graphql, actions, reporter }) {
   }
 
   // Create pagination
-  const pageSize = 2;
+  const pageSize = projectConfig.pagesAmountInSet;
   const pageCount = Math.ceil(data.allMarkdownRemark.totalCount / pageSize);
 
   // Loop from 1 to n and create the pages for them
