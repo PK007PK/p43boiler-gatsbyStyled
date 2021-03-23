@@ -62,6 +62,21 @@ export async function turnCategoriesIntoPages({ graphql, actions }) {
           },
         });
       });
+
+      // Create page just for cattegory, without pagination. It let me use "partiallyActive" in gatsby link
+      actions.createPage({
+        path: `/${category.frontmatter.slug}/`,
+        component: categoryTemplate,
+        context: {
+          skip: 0,
+          currentPage: 0,
+          pageSize,
+          selectPosts: `/${category.frontmatter.slug}/i`,
+          sellectionName: category.frontmatter.name,
+          pageType: 'allPostsInCategory',
+          dirName: `/${category.frontmatter.slug}`,
+        },
+      });
     });
   });
 }

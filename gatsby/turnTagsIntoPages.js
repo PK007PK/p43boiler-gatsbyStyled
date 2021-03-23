@@ -59,6 +59,20 @@ export async function turnTagsIntoPages({ graphql, actions }) {
           },
         });
       });
+
+      actions.createPage({
+        path: `/${tag.frontmatter.slug}/`,
+        component: tagTemplate,
+        context: {
+          skip: 0,
+          currentPage: 0,
+          pageSize,
+          selectPosts: `/${tag.frontmatter.slug}/i`,
+          sellectionName: tag.frontmatter.name,
+          pageType: 'allPostsInTag',
+          dirName: `/${tag.frontmatter.slug}`,
+        },
+      });
     });
   });
 }

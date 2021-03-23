@@ -13,7 +13,7 @@ const BlogPage = ({ data, pageContext }) => {
   if (pageContext.dirName === undefined) {
     pageContext.dirName = `/blog`;
   }
-  console.log(pageContext);
+
   const categories = data.category;
   const tags = data.tag;
   const { allPosts } = data;
