@@ -1,3 +1,5 @@
+import { createFilePath } from 'gatsby-source-filesystem';
+
 export const createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
 

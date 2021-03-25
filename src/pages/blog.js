@@ -7,7 +7,7 @@ import CategoryFilter from '../components/CategoryFilter';
 import TagsFilter from '../components/TagsFilter';
 import Pagination from '../components/Pagination';
 
-import projectConfig from '../../projectConfig';
+import projectConfig from '../projectConfig';
 
 const BlogPage = ({ data, pageContext }) => {
   if (pageContext.dirName === undefined) {

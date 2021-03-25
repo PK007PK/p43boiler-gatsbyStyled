@@ -15,7 +15,6 @@ const BlogPostTemplate = ({ data }) => {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
-
       <article
         className="blog-post"
         itemScope
@@ -31,6 +30,7 @@ const BlogPostTemplate = ({ data }) => {
         />
         <hr />
       </article>
+      Test
       <nav className="blog-post-nav">
         <ul
           style={{

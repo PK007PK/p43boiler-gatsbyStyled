@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 // dotenv.config({ path: '.env' });
-import projectConfig from './projectConfig';
+import projectConfig from './src/projectConfig';
 
 export default {
   siteMetadata: {
