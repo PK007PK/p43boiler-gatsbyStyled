@@ -9,7 +9,6 @@ export default {
     siteUrl: projectConfig.siteUrl,
     language: projectConfig.language,
   },
-
   flags: { DEV_SSR: true },
   plugins: [
     'gatsby-plugin-styled-components',
@@ -82,12 +81,17 @@ export default {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-offline',
-    // {
-    //   resolve: "gatsby-plugin-manifest",
-    //   options: {
-    //     icon: "src/images/icon.png",
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: projectConfig.title,
+        start_url: `/`,
+        background_color: `#ffffff`,
+        theme_color: `#1C2331`,
+        display: `minimal-ui`,
+        icon: `src/assets/images/icon.png`,
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-netlify-cms',
   ],
