@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, graphql } from 'gatsby';
-import Layout from '../components/Layout';
+import Layout from 'src/components/Layout/Layout';
 
-import SEO from '../components/SEO';
+import SEO from 'src/components/SEO/SEO';
 
 const BlogPostTemplate = ({ data }) => {
   const post = data.markdownRemark;

@@ -1,8 +1,8 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 
-import Layout from '../components/Layout';
-import SEO from '../components/SEO';
+import Layout from 'src/components/Layout/Layout';
+import SEO from 'src/components/SEO/SEO';
 
 const IndexPage = ({ data }) => {
   const content = data.markdownRemark;

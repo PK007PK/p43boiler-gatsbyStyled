@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Button from '../components/Button';
-import Layout from '../components/Layout';
-import SEO from '../components/SEO';
+import Button from 'src/components/Button/Button';
+import Layout from 'src/components/Layout/Layout';
+import SEO from 'src/components/SEO/SEO';
 
 const TestPage = () => (
   <Layout>
