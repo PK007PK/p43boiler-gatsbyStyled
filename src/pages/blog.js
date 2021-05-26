@@ -1,13 +1,13 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 
-import Layout from '../components/Layout';
-import SEO from '../components/SEO';
-import CategoryFilter from '../components/CategoryFilter';
-import TagsFilter from '../components/TagsFilter';
-import Pagination from '../components/Pagination';
+import Layout from 'src/components/Layout/Layout';
+import SEO from 'src/components/SEO/SEO';
+import CategoryFilter from 'src/components/CategoryFilter/CategoryFilter';
+import TagsFilter from 'src/components/TagsFilter/TagsFilter';
+import Pagination from 'src/components/Pagination/Pagination';
 
-import projectConfig from '../projectConfig';
+import projectConfig from 'src/projectConfig';
 
 const BlogPage = ({ data, pageContext }) => {
   if (pageContext.dirName === undefined) {

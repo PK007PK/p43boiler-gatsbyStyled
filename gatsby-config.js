@@ -11,6 +11,7 @@ export default {
   },
   flags: { DEV_SSR: true },
   plugins: [
+    'gatsby-plugin-root-import',
     'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-plugin-google-analytics',
